@@ -71,6 +71,13 @@ class VariantGroupValidator
                 $differencesWithThePreviousGroupAttributes = array_diff($previousGroupAttributes, $groupAttributes);
 
                 if (!empty($differencesWithThePreviousGroupAttributes)) {
+                    $log = sprintf(
+                        "[GROUP ERROR] Group code: %s | Expected attributes: %s | Found attributes: %s",
+                        $group,
+                        implode(',', $previousGroupAttributes),
+                        implode(',', $groupAttributes)
+                    );
+                    $this->logger->warning($log);
                     $this->logger->warning(sprintf(
                         "Unable to migrate the variations for the family %s and axis %s, because all the following variation group(s) don't have the same attributes : %s",
                         $variantGroupCombination->getFamily()->getCode(),

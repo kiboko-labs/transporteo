@@ -107,7 +107,7 @@ SQL;
             $pim
         )->getOutput();
 
-        if (!isset($results[0]['valuesData'])) {
+        if (empty($results[0]['valuesData'])) {
             return [];
         }
 
