@@ -86,6 +86,13 @@ class ProductMigrator implements DataMigrator
         $apiResponses = $this->console->execute($command, $pim)->getOutput();
 
         foreach ($apiResponses as $apiResponse) {
+            if (is_null($apiResponse)) {
+                throw new \Exception(
+                    sprintf(
+                        'The API at %s return something unexpected. Some products could not be migrated. Process stopped.',
+                        $pim->getApiParameters()->getBaseUri()
+                    ));
+            }
             if ($apiResponse['status_code'] >= 400) {
                 $this->logger->warning(sprintf(
                     'Migration of the product %s : %s', $apiResponse['identifier'], $apiResponse['message']
